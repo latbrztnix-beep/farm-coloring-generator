@@ -126,7 +126,16 @@
     });
   }
 
-  $("generate").addEventListener("click", renderPreview);
+  
+$("generate").addEventListener("click", () => {
+  const currentSeed = Number(seed.value) || 1;
+
+  seed.value = currentSeed >= 9999
+    ? 1
+    : currentSeed + 1;
+
+  renderPreview();
+});
 
   $("validate").addEventListener("click", validateCurrent);
 
