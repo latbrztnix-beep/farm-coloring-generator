@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm Coloring Studio</title>
+  <meta name="description" content="Create cute farm animal coloring pages ready to print.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #26352c;
+      background: #f7f8f2;
+    }
+    header {
+      padding: 25px 18px;
+      text-align: center;
+      background: #e4f0df;
+      border-bottom: 1px solid #d4e2ce;
+    }
+    header h1 { margin: 0 0 8px; font-size: clamp(25px, 5vw, 38px); }
+    header p { margin: 0; color: #566b59; }
+    main {
+      width: min(1100px, 94%);
+      margin: 25px auto;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .panel, .preview-panel {
+      background: white;
+      border: 1px solid #e1e5dc;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 5px 20px #253b2410;
+    }
+    label { display: block; font-weight: bold; margin: 15px 0 8px; }
+    select, input, button {
+      width: 100%;
+      font: inherit;
+      border-radius: 9px;
+      padding: 12px;
+    }
+    select, input { border: 1px solid #cbd5c7; background: white; }
+    button {
+      cursor: pointer;
+      border: 0;
+      font-weight: bold;
+      margin-top: 12px;
+      background: #3e714a;
+      color: white;
+    }
+    button.secondary { background: #edf3e9; color: #2c5235; }
+    button:hover { filter: brightness(.96); }
+    .note { color: #69776b; font-size: 13px; line-height: 1.5; }
+    .preview-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .preview-head h2 { margin: 0; font-size: 19px; }
+    #paper {
+      width: min(100%, 560px);
+      margin: 0 auto;
+      background: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 18px #00000012;
+      aspect-ratio: 8.5 / 11;
+    }
+    #paper svg { display: block; width: 100%; height: 100%; }
+    footer { text-align: center; padding: 10px 20px 28px; color: #69776b; font-size: 13px; }
+    @media (max-width: 720px) {
+      main { grid-template-columns: 1fr; }
+      .panel { order: 1; }
+      .preview-panel { order: 2; }
+    }
+    @page { size: Letter portrait; margin: 0; }
+    @media print {
+      body { background: white; }
+      header, .panel, .preview-head, footer { display: none !important; }
+      main { display: block; width: auto; margin: 0; }
+      .preview-panel { border: 0; padding: 0; box-shadow: none; }
+      #paper { width: 8.5in; height: 11in; max-width: none; border: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌿 Farm Coloring Studio</h1>
+    <p>Sweet little farm friends, ready for coloring.</p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Create your page</h2>
+      <p class="note">Choose an animal, personalize the title, then download or print your page.</p>
+
+      <label for="animal">Farm animal</label>
+      <select id="animal">
+        <option value="cow">Cute Baby Cow</option>
+        <option value="chick">Happy Little Chick</option>
+        <option value="pig">Sweet Piglet</option>
+      </select>
+
+      <label for="pageTitle">Page title</label>
+      <input id="pageTitle" value="My Happy Farm" maxlength="45">
+
+      <button id="download">Download SVG</button>
+      <button id="print" class="secondary">Print / Save as PDF</button>
+
+      <p class="note">For PDF: choose “Save as PDF” in your browser’s print dialog and select US Letter paper size.</p>
+      <p class="note">This is an initial vector-art prototype. Check the artwork and print quality before selling any pages.</p>
+    </section>
+
+    <section class="preview-panel">
+      <div class="preview-head">
+        <h2>Live page preview</h2>
+        <span class="note">US Letter · Portrait</span>
+      </div>
+      <div id="paper" aria-label="Coloring page preview"></div>
+    </section>
+  </main>
+
+  <footer>Made for little artists · Original code-drawn vector artwork</footer>
+
+  <script>
+    const animalSelect = document.getElementById("animal");
+    const titleInput = document.getElementById("pageTitle");
+    const paper = document.getElementById("paper");
+
+    const stroke = 'stroke="#222" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="white"';
+
+    function cow() {
+      return `
+        <path ${stroke} d="M220 310 Q190 265 205 220 L185 178 L235 194 Q300 170 365 194 L415 178 L397 230 Q410 275 385 310"/>
+        <path ${stroke} d="M220 280 Q180 250 170 220 Q160 205 178 202 L218 230"/>
+        <path ${stroke} d="M385 280 Q425 250 435 220 Q445 205 427 202 L387 230"/>
+        <ellipse ${stroke} cx="302" cy="365" rx="115" ry="100"/>
+        <path ${stroke} d="M215 337 Q245 302 268 333 Q282 355 251 371 Q222 378 215 337 Z"/>
+        <path ${stroke} d="M330 385 Q350 346 386 367 Q408 395 380 420 L340 420 Z"/>
+        <ellipse ${stroke} cx="302" cy="390" rx="65" ry="43"/>
+        <ellipse cx="280" cy="390" rx="7" ry="10" fill="#222"/>
+        <ellipse cx="325" cy="390" rx="7" ry="10" fill="#222"/>
+        <path d="M280 414 Q302 430 325 414" fill="none" stroke="#222" stroke-width="4" stroke-linecap="round"/>
+        <ellipse ${stroke} cx="260" cy="295" rx="11" ry="16"/>
+        <ellipse ${stroke} cx="344" cy="295" rx="11" ry="16"/>
+        <ellipse cx="263" cy="299" rx="5" ry="8" fill="#222"/>
+        <ellipse cx="341" cy="299" rx="5" ry="8" fill="#222"/>
+        <path ${stroke} d="M284 265 Q302 280 320 265"/>
+        <path ${stroke} d="M240 456 L238 500 L275 500 L278 460 M330 460 L333 500 L370 500 L366 456"/>
+        <path ${stroke} d="M385 350 Q430 340 423 315 Q420 300 438 304"/>
+        <path ${stroke} d="M210 520 L398 520"/>
+      `;
+    }
+
+    function chick() {
+      return `
+        <path ${stroke} d="M230 420 Q190 380 215 330 Q220 305 242 300 Q250 230 315 220 Q375 225 386 292 Q420 315 414 360 Q410 405 375 425 Z"/>
+        <path ${stroke} d="M260 255 Q240 220 265 205 Q290 200 300 230 Q320 190 342 207 Q362 225 340 251"/>
+        <ellipse cx="280" cy="315" rx="8" ry="11" fill="#222"/>
+        <ellipse cx="345" cy="315" rx="8" ry="11" fill="#222"/>
+        <path ${stroke} d="M297 333 L315 348 L334 333 Q315 320 297 333 Z"/>
+        <path ${stroke} d="M260 370 Q280 390 300 370 M330 370 Q350 390 370 370" fill="none"/>
+        <path ${stroke} d="M255 420 L250 475 L290 475 L298 425 M335 425 L342 475 L382 475 L370 420"/>
+        <path ${stroke} d="M250 475 L230 485 L280 485 M342 475 L330 485 L380 485"/>
+        <path ${stroke} d="M230 365 Q195 345 200 325 Q225 325 245 355 M390 355 Q420 325 438 335 Q438 360 400 375"/>
+        <path ${stroke} d="M205 520 Q315 535 425 520"/>
+      `;
+    }
+
+    function pig() {
+      return `
+        <path ${stroke} d="M225 285 L205 215 Q205 195 225 205 L270 250 Q320 235 360 250 L405 205 Q425 195 425 215 L405 285 Q430 325 415 375 Q405 425 365 435 L365 485 L330 485 L325 440 L275 440 L270 485 L235 485 L235 425 Q195 395 195 345 Q195 310 225 285 Z"/>
+        <ellipse ${stroke} cx="305" cy="360" rx="70" ry="53"/>
+        <ellipse cx="285" cy="350" rx="7" ry="10" fill="#222"/>
+        <ellipse cx="335" cy="350" rx="7" ry="10" fill="#222"/>
+        <ellipse ${stroke} cx="307" cy="390" rx="40" ry="26"/>
+        <ellipse cx="293" cy="389" rx="5" ry="8" fill="#222"/>
+        <ellipse cx="321" cy="389" rx="5" ry="8" fill="#222"/>
+        <path ${stroke} d="M275 300 Q305 320 335 300"/>
+        <path ${stroke} d="M415 380 Q450 375 440 350 Q435 335 450 335" fill="none"/>
+        <path ${stroke} d="M205 520 Q305 532 410 520"/>
+        <path ${stroke} d="M250 265 Q230 245 225 222 M380 265 Q400 245 405 222"/>
+      `;
+    }
+
+    function makeSVG() {
+      const animal = animalSelect.value;
+      const title = titleInput.value.trim() || "My Happy Farm";
+      const art = animal === "cow" ? cow() : animal === "chick" ? chick() : pig();
+
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="8.5in" height="11in" viewBox="0 0 612 792">
+        <rect width="612" height="792" fill="white"/>
+        <rect x="25" y="25" width="562" height="742" rx="22" fill="white" stroke="#222" stroke-width="2.5"/>
+        <text x="306" y="78" font-family="Arial,sans-serif" font-size="25" font-weight="bold" text-anchor="middle" fill="#222">${escapeXML(title)}</text>
+        <path d="M100 100 Q306 115 512 100" fill="none" stroke="#222" stroke-width="2"/>
+        <g transform="translate(0 75) scale(1.02)" ${''}>${art}</g>
+        <text x="306" y="665" font-family="Arial,sans-serif" font-size="16" text-anchor="middle" fill="#222">Color your farm friend!</text>
+        <path d="M150 700 Q306 715 462 700" fill="none" stroke="#222" stroke-width="2"/>
+        <text x="306" y="738" font-family="Arial,sans-serif" font-size="11" text-anchor="middle" fill="#555">Farm Coloring Studio</text>
+      </svg>`;
+    }
+
+    function escapeXML(text) {
+      return text.replace(/[&<>"']/g, ch => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;"
+      })[ch]);
+    }
+
+    function render() {
+      paper.innerHTML = makeSVG();
+    }
+
+    animalSelect.addEventListener("change", render);
+    titleInput.addEventListener("input", render);
+
+    document.getElementById("download").addEventListener("click", () => {
+      const blob = new Blob([makeSVG()], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = animalSelect.value + "-coloring-page.svg";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("print").addEventListener("click", () => window.print());
+
+    render();
+  </script>
+</body>
+</html>
